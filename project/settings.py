@@ -1,21 +1,25 @@
 import os
+from environs import Env
+
+env = Env()
+env.read_env()
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'HOST': '',
-        'PORT': '',
-        'NAME': '',
-        'USER': '',
-        'PASSWORD': '',
+        'HOST': env.str("DATACENTER_PSQL_HOST"),
+        'PORT': env.str("DATACENTER_PSQL_PORT"),
+        'NAME': env.str("DATACENTER_PSQL_NAME"),
+        'USER': env.str("DATACENTER_PSQL_USER"),
+        'PASSWORD': env.str("DATACENTER_PSQL_PASSWORD"),
     }
 }
 
 INSTALLED_APPS = ['datacenter']
 
-SECRET_KEY = 'REPLACE_ME'
+SECRET_KEY = os.getenv("DATACENTER_SECRET_KEY")
 
-DEBUG = True
+DEBUG = env.bool("DEBUG", default=False)
 
 ROOT_URLCONF = "project.urls"
 
